@@ -1,0 +1,28 @@
+# LLM inference — Groq API (cloud, free tier)
+groq>=0.9.0
+
+# LLM inference — local GGUF fallback (CPU only)
+# Install with: pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
+llama-cpp-python==0.3.28
+
+# Embeddings
+sentence-transformers==3.3.1
+
+# Vector store
+faiss-cpu==1.9.0
+
+# Web scraping
+requests==2.32.3
+beautifulsoup4==4.12.3
+lxml==5.3.0
+
+# Numerics — pinned: NumPy 2.x breaks faiss-cpu; pandas 2.3.x has regression with sklearn
+numpy==1.26.4
+pandas==2.2.3
+
+# App UI
+streamlit==1.41.1
+
+# Utilities
+tqdm==4.67.1
+huggingface_hub==0.26.5

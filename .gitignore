@@ -1,0 +1,15 @@
+.model_cache/
+data/raw/
+data/vectorstore/
+data/chat_history/
+models/*.gguf
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.streamlit/
+*.egg-info/
+dist/
+build/
+.env
