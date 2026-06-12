@@ -1,0 +1,14 @@
+﻿# FastAPI backend — SafarnamaGPT mobile API
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+sse-starlette>=2.1.0
+python-multipart>=0.0.9
+groq>=0.9.0
+sentence-transformers==3.3.1
+faiss-cpu==1.9.0
+numpy==1.26.4
+requests==2.32.3
+beautifulsoup4==4.12.3
+lxml==5.3.0
+huggingface_hub==0.26.5
+tqdm==4.67.1

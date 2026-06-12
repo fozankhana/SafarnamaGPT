@@ -114,6 +114,47 @@ Open your browser at **http://localhost:8501**
 
 ---
 
+## Mobile App (Android & iOS)
+
+The `Safarnama Tourism App/` folder contains a full Flutter app that connects to a
+FastAPI backend wrapping the same RAG pipeline.
+
+### Architecture
+```
+Flutter App (Android/iOS)  ──HTTP+SSE──►  FastAPI backend (Render cloud)
+                                                   │
+                                          src/rag.py + src/llm.py (Groq)
+```
+
+### Step 1 — Deploy the backend to Render (free)
+1. Push this repo to GitHub (already done at `github.com/fozankhana/SafarnamaGPT`)
+2. Go to [render.com](https://render.com) → New → Web Service → connect your GitHub repo
+3. Render auto-detects `render.yaml` and configures everything
+4. Add environment variable `GROQ_API_KEY` in the Render dashboard
+5. Note your service URL, e.g. `https://safarnamagpt-api.onrender.com`
+
+### Step 2 — Install Flutter
+Download from [flutter.dev](https://docs.flutter.dev/get-started/install/windows) and
+add `flutter/bin` to your PATH.
+
+### Step 3 — Build the Android APK
+```powershell
+cd "Safarnama Tourism App"
+.\build_apk.ps1
+```
+The APK is output to `build\app\outputs\flutter-apk\app-release.apk`.
+Transfer it to your Android phone and install (enable "Install from unknown sources" first).
+
+### Step 4 — Configure the app
+On first launch open **Settings** (⚙ icon) and enter:
+- Your backend URL from Step 1
+- Your Groq API key (`gsk_...` — free at [console.groq.com](https://console.groq.com))
+
+### iOS
+Open `Safarnama Tourism App/` in Xcode, set your Team ID, and run on device or simulator.
+
+---
+
 ## Configuration
 
 Edit `config.py` to change:
@@ -140,19 +181,33 @@ Edit `config.py` to change:
 ## Project Structure
 
 ```
-├── app.py                  Streamlit chat UI
-├── config.py               Central configuration
-├── requirements.txt
+├── app.py                      Streamlit chat UI (web)
+├── api.py                      FastAPI backend for mobile app
+├── config.py                   Central configuration
+├── requirements.txt            Web app dependencies
+├── requirements-api.txt        Mobile backend dependencies
+├── Procfile                    Render/Railway start command
+├── render.yaml                 One-click Render deployment
 ├── src/
-│   ├── rag.py              RAG pipeline (retrieve + generate)
-│   ├── llm.py              llama-cpp-python wrapper
-│   ├── embedder.py         sentence-transformers wrapper
-│   └── utils.py            Shared helpers
+│   ├── rag.py                  RAG pipeline (retrieve + generate)
+│   ├── llm.py                  LLM wrapper (Groq + local GGUF)
+│   ├── embedder.py             sentence-transformers wrapper
+│   └── utils.py                Shared helpers
 ├── scripts/
-│   ├── scrape_data.py      Web scraper → data/raw/
-│   └── build_index.py      Chunker + FAISS index builder
+│   ├── scrape_data.py          Web scraper → data/raw/
+│   └── build_index.py          Chunker + FAISS index builder
 ├── data/
-│   ├── raw/                Scraped .txt files (gitignored)
-│   └── vectorstore/        FAISS index files (gitignored)
-└── models/                 GGUF model files (gitignored)
+│   ├── raw/                    Scraped .txt files (gitignored)
+│   └── vectorstore/            FAISS index files
+├── models/                     GGUF model files (gitignored)
+└── Safarnama Tourism App/      Flutter mobile app (Android + iOS)
+    ├── lib/
+    │   ├── main.dart           App entry point
+    │   ├── screens/            ChatScreen, HistoryScreen
+    │   ├── widgets/            SettingsSheet
+    │   ├── services/           ApiService (HTTP + SSE)
+    │   └── models/             Conversation, ChatEvent, SourceDoc
+    ├── android/                Android project files
+    ├── pubspec.yaml            Flutter dependencies
+    └── build_apk.ps1           One-click APK build script
 ```

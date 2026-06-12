@@ -1,6 +1,5 @@
 .model_cache/
 data/raw/
-data/vectorstore/
 data/chat_history/
 models/*.gguf
 .venv/
