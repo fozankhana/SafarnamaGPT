@@ -1,9 +1,9 @@
-# SafarnamaGPT — Build Android APK
+﻿# SafarnamaGPT - Build Android APK
 # Run from the 'Safarnama Tourism App' folder: .\build_apk.ps1
 
 $ErrorActionPreference = "Stop"
 
-# ── 1. Locate Flutter SDK ─────────────────────────────────────────────────────
+# -- 1. Locate Flutter SDK -----------------------------------------------------
 $flutter = Get-Command flutter -ErrorAction SilentlyContinue
 if (-not $flutter) {
     # Common install paths
@@ -30,15 +30,15 @@ $flutterCmd = if ($flutter -is [System.Management.Automation.CommandInfo]) { "fl
 
 Write-Host "Flutter found: $flutterCmd" -ForegroundColor Green
 
-# ── 2. Get dependencies ───────────────────────────────────────────────────────
+# -- 2. Get dependencies -------------------------------------------------------
 Write-Host "`nInstalling packages..." -ForegroundColor Cyan
 & $flutterCmd pub get
 
-# ── 3. Build APK ─────────────────────────────────────────────────────────────
+# -- 3. Build APK -------------------------------------------------------------
 Write-Host "`nBuilding release APK..." -ForegroundColor Cyan
 & $flutterCmd build apk --release
 
-# ── 4. Done ───────────────────────────────────────────────────────────────────
+# -- 4. Done -------------------------------------------------------------------
 $apkPath = "build\app\outputs\flutter-apk\app-release.apk"
 if (Test-Path $apkPath) {
     $size = [math]::Round((Get-Item $apkPath).Length / 1MB, 1)
@@ -49,5 +49,5 @@ if (Test-Path $apkPath) {
     Write-Host "Transfer to your Android phone and install it." -ForegroundColor Yellow
     Write-Host "Make sure 'Install from unknown sources' is enabled in Android settings."
 } else {
-    Write-Host "Build may have failed — APK not found at $apkPath" -ForegroundColor Red
+    Write-Host "Build may have failed - APK not found at $apkPath" -ForegroundColor Red
 }
